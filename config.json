@@ -1,0 +1,35 @@
+{
+  "generator": {
+    "dir": "../../dataset/",
+    "color_mode": "rgb",
+    "class_mode": "categorical",
+    "shuffle": true,
+    "loss": "binary_crossentropy",
+    "max_trials": 100
+  },
+  "learning": {
+    "img_size": 200,
+    "epoch": 25
+  },
+  "class_names": [
+    "landscape",
+    "portrait"
+  ],
+  "early_stopping": {
+    "monitor": "val_loss",
+    "min_delta": 0,
+    "patience": 10,
+    "verbose": 1,
+    "mode": "auto"
+  },
+  "reduce_lr": {
+    "monitor": "val_loss",
+    "factor": 0.1,
+    "patience": 5,
+    "verbose": 1,
+    "mode": "auto",
+    "epsilon": 0.0001,
+    "cooldown": 0,
+    "min_lr": 0
+  }
+}
