@@ -1,0 +1,153 @@
+%\documentstyle[epsf,twocolumn]{jarticle}       %LaTeX2e仕様
+
+%\documentclass[twocolumn]{jarticle}     %pLaTeX2e仕様(platex.exeの場合)
+
+%\documentclass[twocolumn]{ujarticle}     %pLaTeX2e仕様(uplatex.exeの場合)
+
+%\documentclass[11pt,a4paper,uplatex]{ujarticle} 	% for uplatex
+
+\documentclass[11pt,a4j]{ujarticle} 			% for platex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+
+%%  基本バージョン
+
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\topmargin}{-45pt}
+
+%\setlength{\oddsidemargin}{0cm} 
+
+\setlength{\oddsidemargin}{-7.5mm}
+
+%\setlength{\evensidemargin}{0cm} 
+
+\setlength{\textheight}{24.1cm}
+
+%setlength{\textheight}{25cm} 
+
+\setlength{\textwidth}{17.4cm}
+
+%\setlength{\textwidth}{172mm} 
+
+\setlength{\columnsep}{11mm}
+
+%\usepackage[dvipdfmx]{graphicx}
+
+
+%\kanjiskip=.07zw plus.5pt minus.5pt
+
+
+
+% 【節が変わるごとに (1.1)(1.2) … (2.1)(2.2) と数式番号をつけるとき】
+
+%\makeatletter
+
+%\renewcommand{\theequation}{%
+
+%\thesection.\arabic{equation}} %\@addtoreset{equation}{section}
+
+%\makeatother
+
+
+%\renewcommand{\arraystretch}{0.95} 行間の設定
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[dvipdfmx]{graphicx}  %pLaTeX2e仕様(\documentstyle ->\documentclass)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+	
+	%\twocolumn[
+
+	\noindent
+
+	
+	\hspace{1em}
+
+	2021年10月22日(金)ゼミ資料
+
+	\hfill
+	
+	\vspace{2mm}
+
+	
+	\hrule
+
+	
+	\begin{center}
+
+		{\Large \bf 進捗報告}
+
+	\end{center}
+
+	\hrule
+
+	\vspace{3mm}
+
+	%]
+	
+	\section{autokerasの実験結果}
+	
+	
+	\begin{table}[h]
+		\caption{実験条件}
+		\label{}
+		\centering
+		\begin{tabular}{c|c}
+			\hline
+			クラス&3クラス(多義図形，風景画，肖像画)\\ \hline
+			エポック&Early Stopping\\ \hline
+			訓練枚数&2570枚/クラス\\ \hline
+			評価枚数&36枚/クラス\\ \hline
+			データサイズ&200×200×3(RGB)\\ \hline
+			損失関数&交差エントロピー\\ \hline
+			試行回数&100回\\ \hline
+		\end{tabular}
+	\end{table}
+
+
+
+	\begin{table}[h]
+		\caption{モデル構造}
+		\label{}
+		\centering
+		\begin{tabular}{c|c}
+			\hline
+			image block 1/normalize&True\\ \hline              
+			image block 1/augment&False\\ \hline    
+			image block 1/block type&vanilla\\ \hline         
+			classification head 1/spatial reduction 1/reduction type&flatten\\ \hline
+			cclassification head 1/dropout&0.5\\ \hline
+			optimizer&adam\\ \hline              
+			learning rate&0.001\\ \hline
+			image block 1/conv block 1/kernel size&3\\ \hline
+			image block 1/conv block 1/separable&False\\ \hline
+			image block 1/conv block 1/max pooling&True\\ \hline
+			image block 1/conv block 1/dropout&0.25\\ \hline
+			image block 1/conv block 1/num blocks&1\\ \hline
+			image block 1/conv block 1/num layers&2\\ \hline
+			image block 1/conv block 1/filters 0 0&32\\ \hline
+			image block 1/conv block 1/filters 0 1&64\\ \hline
+		\end{tabular}
+	\end{table}
+	
+	loss: 147.65377807617188
+	accuracy: 0.3333333432674408 \\
+	lossが下がらずaccuracyが上がってない理由は，探索途中でval lossが何らかのバグで0になっており，それを正として探索を進めているからであると考えられる．
+	
+	\section{今後の方針}
+	LIMEによって判断根拠箇所をマスクした状態での実験，autokeras, LIMEの理論調査，\textbf{PCを直す！！！！！}
+\end{document}
+
+
