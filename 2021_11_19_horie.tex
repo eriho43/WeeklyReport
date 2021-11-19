@@ -1,0 +1,205 @@
+% !TeX spellcheck = en_US
+%\documentstyle[epsf,twocolumn]{jarticle}       %LaTeX2e仕様
+
+%\documentclass[twocolumn]{jarticle}     %pLaTeX2e仕様(platex.exeの場合)
+
+%\documentclass[twocolumn]{ujarticle}     %pLaTeX2e仕様(uplatex.exeの場合)
+
+%\documentclass[11pt,a4paper,uplatex]{ujarticle} 	% for uplatex
+
+\documentclass[11pt,a4j]{jarticle} 			% for platex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+
+%%  基本バージョン
+
+%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\topmargin}{-45pt}
+
+%\setlength{\oddsidemargin}{0cm} 
+
+\setlength{\oddsidemargin}{-7.5mm}
+
+%\setlength{\evensidemargin}{0cm} 
+
+\setlength{\textheight}{24.1cm}
+
+%setlength{\textheight}{25cm} 
+
+\setlength{\textwidth}{17.4cm}
+
+%\setlength{\textwidth}{172mm} 
+
+\setlength{\columnsep}{11mm}
+
+%\usepackage[dvipdfmx]{graphicx}
+
+
+%\kanjiskip=.07zw plus.5pt minus.5pt
+
+
+
+% 【節が変わるごとに (1.1)(1.2) … (2.1)(2.2) と数式番号をつけるとき】
+
+%\makeatletter
+
+%\renewcommand{\theequation}{%
+
+%\thesection.\arabic{equation}} %\@addtoreset{equation}{section}
+
+%\makeatother
+
+
+%\renewcommand{\arraystretch}{0.95} 行間の設定
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\usepackage[dvipdfmx]{graphicx} 
+ %pLaTeX2e仕様(\documentstyle ->\documentclass)
+\usepackage{listings}
+ 
+ 
+ \lstset{
+ 	basicstyle={\ttfamily},
+ 	identifierstyle={\small},
+ 	commentstyle={\smallitshape},
+ 	keywordstyle={\small\bfseries},
+ 	ndkeywordstyle={\small},
+ 	stringstyle={\small\ttfamily},
+ 	frame={tb},
+ 	breaklines=true,
+ 	columns=[l]{fullflexible},
+ 	numbers=left,
+ 	xrightmargin=0zw,
+ 	xleftmargin=3zw,
+ 	numberstyle={\scriptsize},
+ 	stepnumber=1,
+ 	numbersep=1zw,
+ 	lineskip=-0.5ex
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+	
+	%\twocolumn[
+
+	\noindent
+
+	
+	\hspace{1em}
+
+	2021年11月19日(金)ゼミ資料
+
+	\hfill
+	
+	\vspace{2mm}
+
+	
+	\hrule
+
+	
+	\begin{center}
+
+		{\Large \bf 進捗報告}
+
+	\end{center}
+
+	\hrule
+
+	\vspace{3mm}
+
+	%]
+	
+	\section{superpixelを用いた多義箇所探索コードを書くに当たって詰まっているところ}
+	以下コードのslicの戻り値(コード中ではslic\_segments)の示す対象がわからない．公式ドキュメントより，
+	Returns：
+	labels2D or 3D array.
+	Integer mask indicating segment labels.
+	とあるが，何のことなのか理解できていない．
+	
+	中身のデータは，
+	[[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+	1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+	1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+	2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+	2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5]
+	[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+	1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+	1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+	2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+	2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+	5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5]
+	といった二次元配列が，504*644出力されている．
+	また，slic\_segmentsをそのままplotすると，以下のような画像が出力される．
+	
+	\begin{lstlisting}[caption=slicアルゴリズムのコード例,label=fuga]
+	from skimage import io
+	from skimage.segmentation import felzenszwalb, quickshift, slic, watershed, mark_boundaries
+	import matplotlib.pyplot as plt
+	
+	img = io.imread("path.jpg")
+	
+	slic_segments = slic(img, n_segments=100)
+	\end{lstlisting}
+	
+
+	
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\linewidth]{2e}
+	\caption{元画像}
+	\label{fig:2e}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{slic_boumdary}
+	\caption{slic結果}
+	\label{fig:slicboumdary}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{slic}
+	\caption{slic\_segmentsのplot結果}
+	\label{fig:slic}
+\end{figure}
+
+\section{多義図形データセット増強}
+コードを回している時間に多義図形データセットを増強した．顔と風景の多義図形画像が，365枚→390枚となった．
+
+\section{mnistによるautokerasの予備実験}
+自前データでautokerasを回した際，1epoch目からval\_loss=0, val\_acc=1となってしまうバグが頻発した．
+原因を探るため，まずは36枚しか無かったvalidデータを130枚に増やして再実験したが，同じバグが起きた．
+よって，mnistをデータセットとして予備実験を試したが，またしても同じエラーが起きているため，autokerasライブラリ自体(もしくはkeras, tensorflow?)のバグであると考えられる．
+
+\end{document}
+
+
